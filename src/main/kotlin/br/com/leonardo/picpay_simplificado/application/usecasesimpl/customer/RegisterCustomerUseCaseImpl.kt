@@ -11,11 +11,18 @@ import org.springframework.stereotype.Service
 @Service
 class RegisterCustomerUseCaseImpl(
     private val customerRepository: CustomerRepository,
-    private val modelMapper: ModelMapper
 ): RegisterCustomerUseCase {
 
     override fun execute(registerCustomerRequest: CustomerRequestDto) {
-        val customer: Customer = modelMapper.map(registerCustomerRequest, Customer::class.java)
+        val customer: Customer = Customer(
+            email = registerCustomerRequest.email,
+            firstName = registerCustomerRequest.firstName,
+            lastName = registerCustomerRequest.lastName,
+            cpfCnpj = registerCustomerRequest.cpfCnpj,
+            password = registerCustomerRequest.password,
+            customerType = registerCustomerRequest.customerType
+        )
+
         val existsByEmail: Boolean = customerRepository.existsByEmail(customer.email)
         if(existsByEmail) {
             throw AlreadyExistsException("Email already registered")

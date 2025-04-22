@@ -6,36 +6,34 @@ import org.springframework.http.HttpStatus
 import org.springframework.validation.BindingResult
 
 data class ExceptionMessage(
-    val path: String,
-    val method: String,
-    val statusCode: Int,
-    val statusText: String,
-    val message: String,
+    var path: String? = null,
+    var method: String? = null,
+    var statusCode: Int? = null,
+    var statusText: String? = null,
+    var message: String? = null,
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    val errors: Map<String, String>? = null
+    var errors: Map<String, String>? = null
 ) {
-    companion object {
-        fun from(request: HttpServletRequest, status: HttpStatus, message: String): ExceptionMessage {
-            return ExceptionMessage(
-                path = request.requestURI,
-                method = request.method,
-                statusCode = status.value(),
-                statusText = status.reasonPhrase,
-                message = message
-            )
-        }
 
-        fun from(request: HttpServletRequest, status: HttpStatus, message: String, result: BindingResult): ExceptionMessage {
-            val fieldErrors = result.fieldErrors.associate { it.field to (it.defaultMessage ?: "Erro desconhecido") }
-            return ExceptionMessage(
-                path = request.requestURI,
-                method = request.method,
-                statusCode = status.value(),
-                statusText = status.reasonPhrase,
-                message = message,
-                errors = if (fieldErrors.isNotEmpty()) fieldErrors else null
-            )
-        }
+    constructor(request: HttpServletRequest, status: HttpStatus, message: String) : this() {
+        this.path = request.requestURI
+        this.method = request.method
+        this.statusCode = status.value()
+        this.statusText = status.reasonPhrase
+        this.message = message
+    }
+
+    constructor(request: HttpServletRequest, status: HttpStatus, message: String, result: BindingResult) : this() {
+        this.path = request.requestURI
+        this.method = request.method
+        this.statusCode = status.value()
+        this.statusText = status.reasonPhrase
+        this.message = message
+        this.errors = addErrors(result)
+    }
+
+    private fun addErrors(result: BindingResult): Map<String, String> {
+        return result.fieldErrors.associate { it.field to (it.defaultMessage ?: "Invalid value") }
     }
 }
