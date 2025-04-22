@@ -15,9 +15,11 @@ data class Customer(
 
     @Column(unique = true)
     val cpfCnpj: String,
+
+    @Column(unique = true)
     val email: String,
     val password: String,
-    val balance: BigDecimal,
+    val balance: BigDecimal = 0.toBigDecimal(),
 
     @Enumerated(EnumType.STRING)
     val customerType: CustomerType
