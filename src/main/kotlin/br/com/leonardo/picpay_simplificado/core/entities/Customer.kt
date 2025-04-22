@@ -2,16 +2,14 @@ package br.com.leonardo.picpay_simplificado.core.entities
 
 import br.com.leonardo.picpay_simplificado.core.enums.CustomerType
 import jakarta.persistence.*
-import lombok.Data
 import java.math.BigDecimal
 
-@Data
 @Entity
 data class Customer(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long = 0,
     val firstName: String,
     val lastName: String,
 
