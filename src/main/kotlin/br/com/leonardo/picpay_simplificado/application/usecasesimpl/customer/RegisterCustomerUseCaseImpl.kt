@@ -1,5 +1,6 @@
 package br.com.leonardo.picpay_simplificado.application.usecasesimpl.customer
 
+import br.com.leonardo.picpay_simplificado.application.exception.base.AlreadyExistsException
 import br.com.leonardo.picpay_simplificado.core.entities.Customer
 import br.com.leonardo.picpay_simplificado.core.usecases.customer.RegisterCustomerUseCase
 import br.com.leonardo.picpay_simplificado.infrastructure.persistence.CustomerRepository
@@ -17,8 +18,7 @@ class RegisterCustomerUseCaseImpl(
         val customer: Customer = modelMapper.map(registerCustomerRequest, Customer::class.java)
         val existsByEmail: Boolean = customerRepository.existsByEmail(customer.email)
         if(existsByEmail) {
-            throw RuntimeException("Email already registered")
-            TODO("Implements custom exception")
+            throw AlreadyExistsException("Email already registered")
         }
         customerRepository.save(customer)
     }
