@@ -1,5 +1,6 @@
 package br.com.leonardo.picpay_simplificado.application.strategy.transaction.impl
 
+import br.com.leonardo.picpay_simplificado.application.exception.base.BadRequestException
 import br.com.leonardo.picpay_simplificado.application.strategy.transaction.TransactionStrategy
 import br.com.leonardo.picpay_simplificado.core.entities.Customer
 import br.com.leonardo.picpay_simplificado.infrastructure.client.ValidateTransactionClient
@@ -12,7 +13,7 @@ class ValidateTransactionWithClient(
     override fun execute(transactionValue: BigDecimal, sender: Customer, receiver: Customer) {
         val response: ValidationTransactionResponse = validateTransactionClient.execute()
         if(response.status != "success"){
-            throw RuntimeException("Transaction validation failed")
+            throw BadRequestException("Transaction validation failed")
         }
     }
 }

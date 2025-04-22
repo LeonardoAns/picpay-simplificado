@@ -2,7 +2,7 @@ package br.com.leonardo.picpay_simplificado.application.strategy.transaction.imp
 
 import br.com.leonardo.picpay_simplificado.application.strategy.transaction.TransactionStrategy
 import br.com.leonardo.picpay_simplificado.core.entities.Customer
-import org.apache.coyote.BadRequestException
+import br.com.leonardo.picpay_simplificado.application.exception.base.BadRequestException
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 

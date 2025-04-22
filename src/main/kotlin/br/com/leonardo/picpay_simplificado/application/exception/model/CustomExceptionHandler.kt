@@ -1,6 +1,8 @@
 package br.com.leonardo.picpay_simplificado.application.exception.model
 
 import br.com.leonardo.picpay_simplificado.application.exception.base.AlreadyExistsException
+import br.com.leonardo.picpay_simplificado.application.exception.base.BadRequestException
+import br.com.leonardo.picpay_simplificado.application.exception.base.BusinessException
 import br.com.leonardo.picpay_simplificado.application.exception.base.NotFoundException
 import jakarta.servlet.http.HttpServletRequest
 import lombok.extern.java.Log
@@ -31,6 +33,22 @@ class ApiExceptionHandler {
             .status(HttpStatus.CONFLICT)
             .contentType(MediaType.APPLICATION_JSON)
             .body(ExceptionMessage(request, HttpStatus.CONFLICT, alreadyExistsException.message ?: "Conflict"))
+    }
+
+    @ExceptionHandler(BadRequestException::class)
+    fun badRequestException(badRequestException: BadRequestException, request: HttpServletRequest): ResponseEntity<ExceptionMessage> {
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(ExceptionMessage(request, HttpStatus.BAD_REQUEST, badRequestException.message ?: "Conflict"))
+    }
+
+    @ExceptionHandler(BusinessException::class)
+    fun businessException(businessException: BusinessException, request: HttpServletRequest): ResponseEntity<ExceptionMessage> {
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(ExceptionMessage(request, HttpStatus.BAD_REQUEST, businessException.message ?: "Business error"))
     }
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
