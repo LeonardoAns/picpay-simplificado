@@ -1,0 +1,18 @@
+package br.com.leonardo.picpay_simplificado.application.strategy.transaction.impl
+
+import br.com.leonardo.picpay_simplificado.application.strategy.transaction.TransactionStrategy
+import br.com.leonardo.picpay_simplificado.core.entities.Customer
+import br.com.leonardo.picpay_simplificado.core.enums.CustomerType
+import org.apache.coyote.BadRequestException
+import org.springframework.stereotype.Component
+import java.math.BigDecimal
+
+@Component
+class CommonSenderValidation: TransactionStrategy {
+    override fun execute(transactionValue: BigDecimal, sender: Customer, receiver: Customer) {
+        if(sender.customerType != CustomerType.COMMON){
+            throw BadRequestException("Merchants cannot make transactions")
+            TODO("Change to BusinessException")
+        }
+    }
+}

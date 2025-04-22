@@ -18,5 +18,5 @@ data class Transaction(
     @JoinColumn(name = "receiver_id")
     val receiver: Customer,
 
-    val ammount: BigDecimal,
+    val amount: BigDecimal,
 )
