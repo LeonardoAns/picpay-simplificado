@@ -19,7 +19,7 @@ data class Customer(
     @Column(unique = true)
     val email: String,
     val password: String,
-    val balance: BigDecimal = 0.toBigDecimal(),
+    var balance: BigDecimal = 100.toBigDecimal(),
 
     @Enumerated(EnumType.STRING)
     val customerType: CustomerType
