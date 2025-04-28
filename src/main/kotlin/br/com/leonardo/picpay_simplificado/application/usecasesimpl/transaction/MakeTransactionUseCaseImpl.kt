@@ -5,6 +5,7 @@ import br.com.leonardo.picpay_simplificado.application.strategy.transaction.Tran
 import br.com.leonardo.picpay_simplificado.core.entities.Transaction
 import br.com.leonardo.picpay_simplificado.core.usecases.transaction.MakeTransactionUseCase
 import br.com.leonardo.picpay_simplificado.infrastructure.client.ValidateTransactionClient
+import br.com.leonardo.picpay_simplificado.infrastructure.email.EmailService
 import br.com.leonardo.picpay_simplificado.infrastructure.persistence.CustomerRepository
 import br.com.leonardo.picpay_simplificado.infrastructure.persistence.TransactionRepository
 import br.com.leonardo.picpay_simplificado.web.dto.transaction.request.TransactionRequestDto
@@ -18,6 +19,7 @@ class MakeTransactionUseCaseImpl(
     private val customerRepository: CustomerRepository,
     private val transactionStrategy: List<TransactionStrategy>,
     private val transactionRepository: TransactionRepository,
+    private val emailService: EmailService,
 ): MakeTransactionUseCase {
     override fun execute(transactionRequest: TransactionRequestDto) {
         val senderCustomer = customerRepository.findById(transactionRequest.senderId)
@@ -30,6 +32,8 @@ class MakeTransactionUseCaseImpl(
         transactionStrategy.forEach { strategy ->
             strategy.execute(transactionRequest.amount, senderCustomer, receiverCustomer)
         }
+
+        emailService.send(receiverCustomer, transactionRequest.amount)
 
         val transaction: Transaction = Transaction(
             sender = senderCustomer,

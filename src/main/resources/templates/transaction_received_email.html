@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Transação Recebida</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        .container {
+            background-color: #ffffff;
+            max-width: 480px;
+            margin: auto;
+            padding: 30px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .header {
+            font-size: 22px;
+            color: #21C25E;
+            margin-bottom: 20px;
+        }
+        .amount {
+            font-size: 28px;
+            font-weight: bold;
+            color: #21C25E;
+            margin: 10px 0;
+        }
+        .details {
+            font-size: 16px;
+            color: #555555;
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+        .footer {
+            font-size: 12px;
+            color: #999999;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">Transação Recebida!</div>
+
+    <p>Olá, <strong th:text="${userName}"></strong> pagamento recebido</p>
+
+    <div class="amount" th:text="${amount}">R$ 0,00</div>
+
+    <div class="details">
+        <p><strong>Data:</strong> <span th:text="${transactionDate}">01/01/2025</span></p>
+        <p><strong>Descrição:</strong>Pagamento recebido</p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: juno
+    name: picpay-simplificado
   datasource:
     url: jdbc:postgresql://localhost:5432/picpay-simplificado
     username: postgres
@@ -13,3 +13,14 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  mail:
+    host: smtp-relay.brevo.com
+    port: 587
+    username: ${BREVO_USERNAME}
+    password: ${BREVO_API_KEY}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          enable: true
+          required: true
